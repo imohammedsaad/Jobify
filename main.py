@@ -1,8 +1,8 @@
 from io import BytesIO
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 import os
 
-from functions.generate_interview_cheatsheet import generate_interview_cheatsheet
+from functions.generate_interview_cheatsheet import generate_interview_cheatsheet, process_skills
 from test import sample_json
 
 
@@ -13,7 +13,7 @@ app = Flask(__name__)
 UPLOAD_FOLDER = 'tmp/'
 ALLOWED_EXTENSIONS = {'pdf'}
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = 'supersecretkey'
+app.secret_key = '6805a71287fb994a13386a341e148d09'
 
 # Ensure the upload folder exists
 if not os.path.exists(UPLOAD_FOLDER):
@@ -52,7 +52,7 @@ def upload_file():
                     return redirect('/')
 
                 cheatsheet_data = generate_interview_cheatsheet(file_data, job_description)
-                print("Generated cheatsheet data:", cheatsheet_data)
+                session['cheatsheet_data'] = cheatsheet_data  # Store in session
                 
                 return render_template('result.html', cheatsheet=cheatsheet_data)
             else:
@@ -69,6 +69,24 @@ def upload_file():
 @app.route('/favicon.png')
 def favicon():
     return app.send_static_file('favicon.png')
+
+@app.route('/skills')
+def skills_page():
+    if 'cheatsheet_data' not in session:
+        flash('Please upload your resume first')
+        return redirect(url_for('index'))
+    
+    cheatsheet_data = session.get('cheatsheet_data')
+    return render_template('skills.html', cheatsheet=cheatsheet_data)
+
+@app.route('/swot')
+def swot_page():
+    if 'cheatsheet_data' not in session:
+        flash('Please upload your resume first')
+        return redirect(url_for('index'))
+    
+    cheatsheet_data = session.get('cheatsheet_data')
+    return render_template('swot.html', cheatsheet=cheatsheet_data)
 
 
 if __name__ == '__main__':

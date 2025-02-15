@@ -1,38 +1,50 @@
-<section id="skills-section"  onclick="toggleVisibility('skills-table')" >
-    <h2>Required Skills</h2>
-    <div id="skills-div"><table id="skills-table">
-        <thead>
-            <tr>
-                <th>Skill</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for skill in cheatsheet.requiredskills %}
-            <tr>
-                <td><strong>{{ skill.skill }}</strong></td>
-                <td class="status-column">
-                    {% if skill.candidate_skill %}
-                        <span class="green">✓</span>
-                    {% else %}
-                        <span class="red">✗</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-        </div>
-</section>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills Assessment</title>
+    <link rel="stylesheet" href="static/css/skills.css">
+</head>
+<body>
+    <nav class="navigation">
+        <a href="{{ url_for('index') }}" class="nav-item">Roadmap</a>
+        <a href="{{ url_for('index') }}" class="nav-item">Resume Upload</a>
+        <a href="{{ url_for('skills_page') }}" class="nav-item">Skills Assessment</a>
+        <a href="{{ url_for('swot_page') }}" class="nav-item">SWOT Analysis</a>
+        <a href="#" class="nav-item">Interview Prep</a>
+    </nav>
 
-<script>
-    function toggleVisibility(elementId) {
-        const element = document.getElementById(elementId);
-        // Toggle the visibility of the container
-        if (element.style.display === "none") {
-            element.style.display = "block"; // Show the container
-        } else {
-            element.style.display = "none"; // Hide the container
-        }
-    }
-</script>
+    <div class="container">
+        <h1>Skills Assessment</h1>
+        <div class="skills-section">
+            <h2>Skills Comparison</h2>
+            <div class="skills-container">
+                {% if cheatsheet and cheatsheet.requiredskills %}
+                    {% for skill in cheatsheet.requiredskills %}
+                        <div class="skill-group">
+                            <div class="skill-header">
+                                <span class="skill-name">{{ skill.name }}</span>
+                                <span class="skill-percentage">{{ skill.match_percentage }}%</span>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" style="width: {{ skill.match_percentage }}%; 
+                                    background-color: {% if skill.match_percentage >= 80 %}var(--success-color)
+                                                    {% elif skill.match_percentage >= 60 %}var(--warning-color)
+                                                    {% else %}var(--danger-color){% endif %}">
+                                </div>
+                            </div>
+                            <div class="skill-levels">
+                                <span>Required: {{ skill.required_level }}</span>
+                                <span>Current: {{ skill.current_level }}</span>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>No skills data available</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

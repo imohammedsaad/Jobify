@@ -4,25 +4,37 @@
     <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Your Resume</title>
+    <title>Interview Cheatsheet</title>
     <link rel="stylesheet" href="static/css/index.css">
 </head>
 <body>
-    <h1>Interview Cheatsheet</h1>
+    <nav class="navigation">
+        <a href="{{ url_for('index') }}" class="nav-item">Roadmap</a>
+        <a href="{{ url_for('index') }}" class="nav-item">Resume Upload</a>
+        <a href="{{ url_for('skills_page') }}" class="nav-item">Skills Assessment</a>
+        <a href="{{ url_for('swot_page') }}" class="nav-item">SWOT Analysis</a>
+        <a href="#" class="nav-item">Interview Prep</a>
+    </nav>
 
-    <!-- Description of Interview Cheatsheet -->
-    <div class="description">
-        <p>
-            Add your resume, job description, let LLM sprinkle in some magic, and voila - you get a cheatsheet to prepare for your next interview :D
-        </p>
-        <p>
-            Good luck!
-        </p>
+    <form action="/cheatsheet" method="POST" enctype="multipart/form-data" id="upload-form">
+        <div class="upload-container">
+            <h2>Upload Resume (PDF)</h2>
+            <div class="upload-section">
+                <div class="file-upload">
+                    <input type="file" id="fileInput" name="file" accept=".pdf" class="hidden-input" onchange="updateFileName(this)">
+                    <label for="fileInput" class="upload-button">Choose File</label>
+                    <span id="fileName">No file chosen</span>
+                </div>
+            </div>
 
+            <div class="job-description-section">
+                <h2>Job Description</h2>
+                <textarea name="jobDescription" placeholder="Paste the job description here..." required></textarea>
+            </div>
 
-    </div>
-
-    <br><br>
+            <button type="submit" class="analyze-button">Analyze</button>
+        </div>
+    </form>
 
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -32,40 +44,10 @@
         {% endif %}
     {% endwith %}
 
-    <div class="container">
-        <div class="upload-section">
-            <div class="upload-box"
-                 onclick="handleBoxClick()"
-                 ondragover="handleDragOver(event)"
-                 ondragleave="handleDragLeave()"
-                 ondrop="handleDrop(event)">
-                <img src="static/images/upload.png" alt="Upload Icon">
-                <p>Upload Resume</p>
-                <div class="pdf-instruction">
-                    <p>Only PDF format allowed. </p>
-                    <p>Drag and drop not working </p>
-                </div>
-                <iframe id="pdf-preview" class="preview-hidden"></iframe>
-            </div>
-        </div>
-    </div>
-
-    <br><br>
-
-    <!-- Form now contains both the file input and job description textarea -->
-    <form action="/cheatsheet" method="POST" enctype="multipart/form-data" id="upload-form">
-        <textarea id="jobDescription" name="jobDescription" placeholder="Paste the job description here"></textarea>
-        <input id="file-input" class="hidden-input" type="file" name="file" accept="application/pdf" onchange="handleFileInput(event)">
-        <br><br>
-        <button type="submit" class="original-button">Submit</button>
-    </form>
-
-    <!-- Loading screen -->
     <div id="loading-screen" class="loading-screen">
-        <p>Processing... Please wait.</p>
         <div class="loader"></div>
     </div>
 
-    <script src="static/js/script.js"></script>
+    <script src="static/js/upload.js"></script>
 </body>
 </html>

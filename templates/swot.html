@@ -3,23 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interview Cheatsheet</title>
+    <title>SWOT Analysis</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="static/css/swot.css">
+    <link rel="stylesheet" href="static/css/swot.css">
 </head>
 <body>
-    <section id="swot-section" class="swot-analysis">
-        <h2 class="swot-header">
-            SWOT Analysis
-        </h2>
-        <div id="swot-grid" class="container2">
+    <nav class="navigation">
+        <a href="{{ url_for('index') }}" class="nav-item">Roadmap</a>
+        <a href="{{ url_for('index') }}" class="nav-item">Resume Upload</a>
+        <a href="{{ url_for('skills_page') }}" class="nav-item">Skills Assessment</a>
+        <a href="{{ url_for('swot_page') }}" class="nav-item active">SWOT Analysis</a>
+        <a href="#" class="nav-item">Interview Prep</a>
+    </nav>
+
+    <div class="container">
+        <h1>SWOT Analysis</h1>
+        <div id="swot-grid">
             <div class="box strengths">
                 <h3>
                     <i class="fa fa-check-circle"></i> Strengths
                 </h3>
                 <ul>
                     {% for strength in cheatsheet.swot_analysis.strengths %}
-                        <li>• {{ strength }}</li>
+                        <li>{{ strength }}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -29,7 +35,7 @@
                 </h3>
                 <ul>
                     {% for weakness in cheatsheet.swot_analysis.weaknesses %}
-                        <li>• {{ weakness }}</li>
+                        <li>{{ weakness }}</li>
                     {% endfor %}
                 </ul>
             </div>
@@ -39,24 +45,22 @@
                 </h3>
                 <ul>
                     {% for opportunity in cheatsheet.swot_analysis.opportunities %}
-                        <li>• {{ opportunity }}</li>
+                        <li>{{ opportunity }}</li>
                     {% endfor %}
                 </ul>
             </div>
             <div class="box threats">
                 <h3>
-                    <i class="fa fa-exclamation-circle"></i> Threats
+                    <i class="fa fa-exclamation-triangle"></i> Threats
                 </h3>
                 <ul>
                     {% for threat in cheatsheet.swot_analysis.threats %}
-                        <li>• {{ threat }}</li>
+                        <li>{{ threat }}</li>
                     {% endfor %}
                 </ul>
             </div>
-
         </div>
-    </section>
-
-
+    </div>
 </body>
+</html>
 

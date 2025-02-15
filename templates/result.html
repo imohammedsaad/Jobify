@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Cheatsheet</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --background-color: #f8fafc;
+            --card-background: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --info-color: #0284c7;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--card-background);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .section {
+            background: var(--card-background);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .swot-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .swot-item {
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            background: #f8fafc;
+            transition: transform 0.2s;
+        }
+
+        .swot-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .swot-item h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .strengths { border-left: 4px solid var(--success-color); }
+        .weaknesses { border-left: 4px solid var(--danger-color); }
+        .opportunities { border-left: 4px solid var(--info-color); }
+        .threats { border-left: 4px solid var(--warning-color); }
+
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        li::before {
+            content: "•";
+            color: var(--primary-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .qa-list {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .qa-item {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .qa-question {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .qa-answer {
+            color: var(--text-secondary);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .skill-item {
+            background: #f8fafc;
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .swot-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>{{ cheatsheet.role }}</h1>
+            <p>@ {{ cheatsheet.company }}</p>
+        </div>
+        
+        <section class="section">
+            <h2>SWOT Analysis</h2>
+            <div class="swot-grid">
+                <div class="swot-item strengths">
+                    <h3>💪 Strengths</h3>
+                    <ul>
+                        {% for strength in cheatsheet.swot_analysis.strengths %}
+                            <li>{{ strength }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="swot-item weaknesses">
+                    <h3>🎯 Areas for Improvement</h3>
+                    <ul>
+                        {% for weakness in cheatsheet.swot_analysis.weaknesses %}
+                            <li>{{ weakness }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="swot-item opportunities">
+                    <h3>🚀 Opportunities</h3>
+                    <ul>
+                        {% for opportunity in cheatsheet.swot_analysis.opportunities %}
+                            <li>{{ opportunity }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="swot-item threats">
+                    <h3>⚠️ Challenges</h3>
+                    <ul>
+                        {% for threat in cheatsheet.swot_analysis.threats %}
+                            <li>{{ threat }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🎯 Required Skills</h2>
+            <div class="skills-grid">
+                {% for skill in cheatsheet.requiredskills %}
+                    <div class="skill-item">
+                        <span>{{ skill }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>📚 Technical Concepts to Review</h2>
+            <ul>
+                {% for concept in cheatsheet.concepts_revision %}
+                    <li>{{ concept }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="section">
+            <h2>💬 Interview Q&A</h2>
+            <div class="qa-list">
+                {% for qa in cheatsheet.QA %}
+                    <div class="qa-item">
+                        {% set qa_parts = qa.split('\n') %}
+                        <div class="qa-question">{{ qa_parts[0] }}</div>
+                        {% if qa_parts|length > 1 %}
+                            <div class="qa-answer">{{ qa_parts[1] }}</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>🏢 Company Insights</h2>
+            <ul>
+                {% for insight in cheatsheet.company_insights %}
+                    <li>{{ insight }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </div>
+    <br></br>
+    <br></br>
+    <script src="static/js/result_script.js"></script>
+</body>
+</html>

@@ -2,7 +2,7 @@ from io import BytesIO
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 import os
 
-from functions.generate_interview_cheatsheet import generate_interview_cheatsheet, process_skills
+from functions.generate_interview_cheatsheet import generate_interview_cheatsheet
 from test import sample_json
 
 
